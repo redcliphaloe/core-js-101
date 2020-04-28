@@ -159,8 +159,8 @@ function unbracketTag(str) {
  *   'Thunderstruck' => 'THUNDERSTRUCK'
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
-function convertToUpperCase(/* str */) {
-  throw new Error('Not implemented');
+function convertToUpperCase(str) {
+  return str.toUpperCase();
 }
 
 /**
@@ -178,8 +178,8 @@ function convertToUpperCase(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -205,8 +205,12 @@ function extractEmails(/* str */) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let result = `┌${'─'.repeat(width - 2)}┐\n`;
+  for (let h = 1; h < height - 1; h += 1) {
+    result += `│${' '.repeat(width - 2)}│\n`;
+  }
+  return `${result}└${'─'.repeat(width - 2)}┘\n`;
 }
 
 
@@ -226,8 +230,19 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+  let result = '';
+  for (let index = 0; index < str.length; index += 1) {
+    const outputIndex = input.indexOf(str[index]);
+    if (outputIndex === -1) {
+      result += str[index];
+    } else {
+      result += output[outputIndex];
+    }
+  }
+  return result;
 }
 
 /**
@@ -243,8 +258,8 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  return typeof value === 'string' || value instanceof String;
 }
 
 
@@ -272,8 +287,43 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  let suit = value[value.length - 1];
+  switch (suit) {
+    case '♣':
+      suit = 0;
+      break;
+    case '♦':
+      suit = 1;
+      break;
+    case '♥':
+      suit = 2;
+      break;
+    case '♠':
+      suit = 3;
+      break;
+    default:
+      break;
+  }
+  let rank = value.slice(0, -1);
+  switch (rank) {
+    case 'A':
+      rank = 1;
+      break;
+    case 'J':
+      rank = 11;
+      break;
+    case 'Q':
+      rank = 12;
+      break;
+    case 'K':
+      rank = 13;
+      break;
+    default:
+      break;
+  }
+  rank -= 1;
+  return 13 * suit + rank;
 }
 
 
